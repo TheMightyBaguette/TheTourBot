@@ -35,7 +35,6 @@ async def on_ready():
 async def on_message(message):
     await bot.process_commands(message)
 
-bot.load_extension('cmds.test')
 bot.load_extension('cmds.join')
 bot.load_extension('cmds.profile')
 bot.load_extension("cmds.action")
