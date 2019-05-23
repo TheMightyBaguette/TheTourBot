@@ -8,6 +8,7 @@ from database.joueur import Joueur, Tour
 class obj:
     pass
 
+
 class Debug(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -21,7 +22,8 @@ class Debug(commands.Cog):
         member.id = 534044905694167043
         role.id = 534490102496231424
         role.name = "Paladin"
-        player = Joueur(name=member.name,discriminator=member.discriminator,userid=member.id,roleid=role.id,role=role.name)
+        player = Joueur(name=member.name, discriminator=member.discriminator,
+                        userid=member.id, roleid=role.id, role=role.name)
         gl.session.add(player)
         gl.session.commit()
 
@@ -32,11 +34,13 @@ class Debug(commands.Cog):
         gl.session.commit()
 
     @commands.command()
-    async def dump_tour(self,ctx):
+    async def dump_tour(self, ctx):
         query = select('*').select_from(Tour)
         result = gl.session.execute(query).fetchall()
+
         def result_dict(r):
             return dict(zip(r.keys(), r))
+
         def result_dicts(rs):
             return list(map(result_dict, rs))
         await ctx.send(result_dicts(result))

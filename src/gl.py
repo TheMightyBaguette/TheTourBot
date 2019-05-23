@@ -14,4 +14,5 @@ SERVER: int = 534033982568792084
 tour: int = 1
 sagelastprediction = Queue(maxsize=2)
 
+
 def flatten(l): return [item for sublist in l for item in sublist]

@@ -13,23 +13,22 @@ class Joueur(Base):
     userid = Column(Integer, primary_key=True)
     role = Column(String)
     roleid = Column(Integer)
-    hp = Column(Integer,default=3)
+    hp = Column(Integer, default=3)
     atk_modifier = Column(Integer, default=0)
     def_modifier = Column(Integer, default=0)
     isHit = Column(Boolean, default=False)
     hasBeenHit = Column(Boolean, default=False)
     isInvicibleforNextTurn = Column(Boolean, default=False)
     youHaveToThrowTheDiceAgain = Column(Boolean, default=False)
-    berserk_points = Column(Integer,default=0)
-    vie_ephemere = Column(Integer,default=0)
+    berserk_points = Column(Integer, default=0)
+    vie_ephemere = Column(Integer, default=0)
     burned = Column(Boolean, default=False)
     rune = Column(Boolean, default=False)
-    temp_atk_modifier = Column(Integer,default=0)
-    temp_def_modifier = Column(Integer,default=0)
-    prediction = Column(Boolean,default=False)
-    prediction_success = Column(Boolean,default=False)
-    #TODO: A voir pour le Ninja : tempplustwoatk
-
+    temp_atk_modifier = Column(Integer, default=0)
+    temp_def_modifier = Column(Integer, default=0)
+    prediction = Column(Boolean, default=False)
+    prediction_success = Column(Boolean, default=False)
+    # TODO: A voir pour le Ninja : tempplustwoatk
 
     def __repr__(self) -> str:
         info = '''```╔══════════════╦═══════════════════════╗
