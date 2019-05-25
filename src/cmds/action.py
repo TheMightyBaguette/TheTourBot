@@ -448,9 +448,9 @@ async def action(ctx, *args):
         ctx {Context} -- Contexte du bot
     """
     authorid = ctx.author.id
-    type = args[0]
+    type_action = args[0]
     cible = args[1]
-    if type == "attaque":
+    if type_action == "attaque":
         cible = get(gl.guild_obj.members, mention=cible)
         cible_name = cible.name
         cible = gl.session.query(Joueur).filter_by(userid=cible.id).first()
