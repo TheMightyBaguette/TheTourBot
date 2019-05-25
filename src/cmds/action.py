@@ -17,7 +17,7 @@ def reset_bonus(player: Joueur):
     player.def_modifier = 0
     gl.session.commit()
 
-
+# Fonction de test - a supprimer probablement - a voir
 @commands.command()
 async def reinit(ctx):
     from sqlalchemy import select
@@ -31,34 +31,82 @@ async def reinit(ctx):
 
         gl.session.commit()
 
+# Fonction pour tester si la personne réussi a toucher son adversaire
+
 
 def check_hit(num):
+    """Permet de retourner Vrai ou Faux en fonction de la valeur passer en paramètre
+
+    Arguments:
+        num {int} -- le résultat de calcul_attaque
+
+    Returns:
+        bool -- Vrai ou Faux
+    """
     hit = False  # Par defaut
-    if num <= 3:
+    if num <= 3:  # Si le numéro est inférieur ou égale a 3 c'est un échec !
         hit = False
-    elif num > 3:
+    elif num > 3:  # Si le numéro est strictement supérieur a 3 c'est gagné !
         hit = True
     return hit
 
+# Fonction pour c
+
 
 def calcul_attaque(num, player: Joueur, enemy: Joueur) -> int:
+    """Calcule l'attaque du joueur en fonction de ses bonus et de la defense de l'adversaire
+
+    Arguments:
+        num {int} -- Nombre retourner lors du lancer de dé
+        player {Joueur} -- Joueur
+        enemy {Joueur} -- Ennemi ciblé par l'attaque
+
+    Returns:
+        int -- Attaque du joueur
+    """
     num = num + player.atk_modifier + player.temp_atk_modifier - \
         enemy.def_modifier + enemy.temp_def_modifier
     return num
 
 
 def getplayer(userid: int) -> Joueur:
+    """Retourne le joueur connaissant son userid
+
+    Arguments:
+        userid {int} -- l'userid du joueur - son id Discord
+
+    Returns:
+        Joueur -- le joueur
+    """
     return gl.session.query(Joueur).filter_by(userid=userid).first()
 
 
 async def wait_for_message(ctx):
+    """Fonction permettant d'attendre le message d'un utilisateur et le retourne
+
+    Arguments:
+        ctx {Context} -- le contexte du bot
+
+    Returns:
+        Message -- Le message de l'utilisateur
+    """
     def check(m):
+        # Si l'auteur du message et le même que l'auteur initial
         return m.author == ctx.author
+    # On attend le message et on le retourne si check est vrai
     msg = await ctx.bot.wait_for("message", check=check)
-    return msg
+    return msg  # On retourne le message
 
 
 async def give(ctx) -> Joueur:
+    """Attend le message du joueur et recupere le joueur mentionné
+
+    Arguments:
+        ctx {Context} -- contexte du Bot
+
+    Returns:
+        Joueur -- Joueur mentionné par l'utilisateur
+    """
     msg = await wait_for_message(ctx)
     userid = msg.mentions[0].id
     player = getplayer(userid)
@@ -66,6 +114,12 @@ async def give(ctx) -> Joueur:
 
 
 async def giveDefToSomeone(ctx: Context, num: int):
+    """Fonction permettant de demander au joueur a qui il souhaite donner de la defense
+
+    Arguments:
+        ctx {Context} -- contexte du bot
+        num {int} -- nombre de points de defense
+    """
     await ctx.send("A quel utilisateur veux tu donner de la défense ?")
     player: Joueur = await give(ctx)
     player.tempplusonedef = True
@@ -75,6 +129,12 @@ async def giveDefToSomeone(ctx: Context, num: int):
 
 
 async def takeDefToSomeone(ctx: Context, num: int):
+    """Fonction permettant de demander au joueur a qui il souhaite retirer de la defense
+
+    Arguments:
+        ctx {Context} -- contexte du bot
+        num {int} -- nombre de points de defense
+    """
     await ctx.send("A quel utilisateur veux tu enlever de la défense ?")
     player: Joueur = await give(ctx)
     player.temp_def_modifier += num
@@ -83,6 +143,12 @@ async def takeDefToSomeone(ctx: Context, num: int):
 
 
 async def giveAtkToSomeone(ctx, num: int):
+    """Fonction permettant de demander au joueur a qui il souhaite donner de l'attaque
+
+    Arguments:
+        ctx {Context} -- contexte du bot
+        num {int} -- nombre de points d'attaque
+    """
     await ctx.send("A quel utilisateur veux tu donner de l'attaque ?")
     player: Joueur = await give(ctx)
     player.temp_atk_modifier += num
@@ -91,6 +157,12 @@ async def giveAtkToSomeone(ctx, num: int):
 
 
 async def takeAtkToSomeone(ctx, num: int):
+    """Fonction permettant de demander au joueur a qui il souhaite retirer de l'attaque
+
+    Arguments:
+        ctx {Context} -- contexte du bot
+        num {int} -- nombre de points d'attaque
+    """
     await ctx.send("A quel utilisateur veux tu enlever de l'attaque ?")
     player: Joueur = await give(ctx)
     player.temp_atk_modifier += num
@@ -99,6 +171,12 @@ async def takeAtkToSomeone(ctx, num: int):
 
 
 async def giveHealthToSomeone(ctx, num: int):
+    """Fonction permettant de demander au joueur a qui il souhaite donner de la vie
+
+    Arguments:
+        ctx {Contexte} -- contexte du bot
+        num {int} -- nombre de points de vie
+    """
     await ctx.send("A quel utilisateur veux tu donner de la vie ?")
     player: Joueur = await give(ctx)
     player.hp += num
@@ -106,17 +184,34 @@ async def giveHealthToSomeone(ctx, num: int):
     gl.session.commit()
 
 
+# Je crois que cette fonction est inutile car même implémentation dans trigger_by_hitting_enemy
+# A vérifier et a supprimer si effectivement inutile
 def trigger_by_dice(enemy: Joueur, player: Joueur, num: int):
+    """Action qui sont déclenché lors d'un lancer de dé particulier
+
+    Arguments:
+        enemy {Joueur} -- Ennemi
+        player {Joueur} -- Joueur
+        num {int} -- Numéro du lancer de dé
+    """
     if enemy.role == "Orc d'élite":
         if num in [1, 2]:
             player.hp -= 1
 
 
-def ask_lamort():
+def ask_lamort():  # TODO: Traiter le cas de la mort
     pass
 
 
 async def trigger_by_hitting_enemy(ctx, enemy: Joueur, player: Joueur, num):
+    """Action déclenché lorsque le joueur touche un ennemi en fonction de son type
+
+    Arguments:
+        ctx {Contexte} -- contexte du bot
+        enemy {Joueur} -- Ennemi
+        player {Joueur} -- Joueur
+        num {int} -- Numéro du lancer de dé
+    """
     if enemy.role == "Orc d'élite":
         if num in [1, 2]:
             await ctx.send("C'est pas de chance tu perd une vie")
@@ -130,12 +225,28 @@ async def trigger_by_hitting_enemy(ctx, enemy: Joueur, player: Joueur, num):
 
 
 async def trigger_by_life_taken_to_enemy(ctx, enemy, player):
+    """Action déclenché si de la vie a été enlevé a quelqu'un (n'importe qui)
+    Arguments:
+        ctx {Contexte} -- contexte du bot
+        enemy {Joueur} -- Ennemi
+        player {Joueur} -- Joueur
+    """
     if player.role == "Berzerk":
         player.berserk_points += 1
         await ctx.send("1 BP de gagné pour le Berserk")
 
 
 async def ask_berserk(ctx: Context, player: Joueur, type_action: str) -> str:
+    """Traite le cas spécifique du Berserk en lui demande si il souhaite utilisé ses points ou non
+
+    Arguments:
+        ctx {Context} -- contexte du bot
+        player {Joueur} -- Joueur
+        type_action {str} -- Type de l'action
+
+    Returns:
+        str -- Retourne berserk,nodice si le message ne contient pas points (?)
+    """
     if type_action == "attaque":
         await ctx.send("dé normal ou points ?")
         msg: Message = await wait_for_message(ctx)
@@ -159,6 +270,15 @@ async def ask_berserk(ctx: Context, player: Joueur, type_action: str) -> str:
 
 
 async def ifrole(ctx, player: Joueur, type_action: str, enemy: Joueur, num: int):
+    """En fonction du role applique certaines actions
+
+    Arguments:
+        ctx {Context} -- contexte du bot
+        player {Joueur} -- Joueur
+        type_action {str} -- Type de l'action
+        enemy {Joueur} -- Ennemi
+        num {int} -- Lancer de dé
+    """
     if type_action == "attaque":
         if player.role == "Capitaine":
             player.atk_modifier += 1
@@ -253,6 +373,13 @@ async def ask_sage(ctx, player):
 
 
 async def atk(ctx, enemy: Joueur, player: int):
+    """Implémente l'attaque
+
+    Arguments:
+        ctx {Context} -- contexte du bot
+        enemy {Joueur} -- Ennemi
+        player {int} -- User Id du Joueur
+    """
     player = getplayer(player)
     # Avant le lancer de dé le sage peut prédir
     if player.role == "Sage":
@@ -315,6 +442,11 @@ def commit_tour(authorid, action):
 
 @commands.command()
 async def action(ctx, *args):
+    """Commande taper par le joueur lui permettant de faire une action, de la forme &action attaque @Pupu
+
+    Arguments:
+        ctx {Context} -- Contexte du bot
+    """
     authorid = ctx.author.id
     type = args[0]
     cible = args[1]

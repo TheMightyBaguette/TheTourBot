@@ -7,11 +7,12 @@ import discord
 
 @commands.command(pass_context=True)
 async def join(ctx, *args):
-    member = ctx.message.author
+    member = ctx.message.author  # On recupere l'auteur du message
     blacklist_roles = [534034410283204624, 534039284647329812,
                        534048009818865675, 534836973416742912, 534847615469092874, 534033982568792084,
-                       537377467657355264]
+                       537377467657355264]  # On maintient une liste des ids de tout les roles que l'on souhaite interdir
     blacklist = [get(member.guild.roles, id=x) for x in blacklist_roles]
+    # On recupere le nom du role demander par l'utilisateur
     role_asked = " ".join(args)
     count_roles = [x for x in gl.flatten(
         [x.roles for x in [x for x in gl.guild_obj.members]])]
