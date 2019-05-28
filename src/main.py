@@ -1,3 +1,4 @@
+# coding=utf-8
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
 
@@ -7,7 +8,6 @@ import discord
 
 from cmds.debug.debug import Debug
 from database.joueur import Base, Tour
-
 
 def get_current_server(bot):
     """Retourne le serveur courant

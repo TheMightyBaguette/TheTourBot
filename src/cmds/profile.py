@@ -1,3 +1,4 @@
+# coding=utf-8
 from discord.ext import commands
 import gl
 from database.joueur import Joueur

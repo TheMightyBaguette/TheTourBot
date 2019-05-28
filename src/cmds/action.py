@@ -1,3 +1,4 @@
+# coding=utf-8
 from random import randint
 
 from discord import Message
@@ -414,8 +415,8 @@ async def atk(ctx, enemy: Joueur, player: int):
         num = calcul_attaque(numbase, player, enemy)
         enemy.youHaveToThrowTheDiceAgain = False
         if check_hit(num):
-            await trigger_by_hitting_enemy(enemy, player, num)
-            await trigger_by_life_taken_to_enemy(enemy, player)
+            await trigger_by_hitting_enemy(ctx,enemy, player, num)
+            await trigger_by_life_taken_to_enemy(ctx,enemy, player)
             await ctx.send("Bah bravo ça, c'est 1 HP en moins dans ta gueule {}".format(enemy.name))
             enemy.isHit = True
             enemy.hp -= 1
@@ -472,7 +473,7 @@ async def action(ctx, *args):
         await ctx.send("Debut Tour {}".format(gl.tour))
         await ctx.send("Fin de la partie pour le moment le bot s'éteint")
         await ctx.send("En cours de réalisation")
-        reinit()
+        await reinit()
 
 
 def setup(bot):

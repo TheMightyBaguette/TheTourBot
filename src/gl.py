@@ -1,3 +1,4 @@
+# coding=utf-8
 from queue import Queue
 
 from discord import Guild

@@ -1,3 +1,4 @@
+# coding=utf-8
 from sqlalchemy import Column, Integer, String, Boolean, PickleType
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
@@ -5,9 +6,6 @@ Base = declarative_base()
 
 class Joueur(Base):
     __tablename__ = "joueurs"
-    # id = Column(Integer, primary_key=True)
-    # username = Column(String,nullable=False)
-    # role = Column(String,nullable=False)
     name = Column(String)
     discriminator = Column(String)
     userid = Column(Integer, primary_key=True)
@@ -45,18 +43,6 @@ class Joueur(Base):
 ║ hasBeenhit   ║ {}
 ╚══════════════╩═══════════════════════╝```'''.format(self.name+"#"+self.discriminator, self.role, self.hp*u"❤️", self.atk_modifier*u"⚔️", self.def_modifier*u"🛡️", self.hasBeenHit)
         return info
-
-    # def __init__(self, username, role):
-    #     self.username = username
-    #     self.role = role
-    #     self.hp = 5
-    #     self.atk_modifier = 0
-    #     self.def_modifier = 0
-    #     self.history = []
-    #     self.hit = False
-    #     self.gameid = 0000
-    #     self.unique_used = False
-
 
 class Tour(Base):
     __tablename__ = "tour"
