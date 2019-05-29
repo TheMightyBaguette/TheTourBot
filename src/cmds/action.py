@@ -415,8 +415,8 @@ async def atk(ctx, enemy: Joueur, player: int):
         num = calcul_attaque(numbase, player, enemy)
         enemy.youHaveToThrowTheDiceAgain = False
         if check_hit(num):
-            await trigger_by_hitting_enemy(ctx,enemy, player, num)
-            await trigger_by_life_taken_to_enemy(ctx,enemy, player)
+            await trigger_by_hitting_enemy(ctx, enemy, player, num)
+            await trigger_by_life_taken_to_enemy(ctx, enemy, player)
             await ctx.send("Bah bravo ça, c'est 1 HP en moins dans ta gueule {}".format(enemy.name))
             enemy.isHit = True
             enemy.hp -= 1
