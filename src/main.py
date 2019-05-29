@@ -5,9 +5,14 @@ from sqlalchemy.orm import sessionmaker
 import gl
 from discord.ext import commands
 import discord
+import sys
+import time
 
 from cmds.debug.debug import Debug
 from database.joueur import Base, Tour
+
+option = sys.argv[1]
+
 
 def get_current_server(bot):
     """Retourne le serveur courant
@@ -47,6 +52,10 @@ async def on_ready():
     gl.guild_obj = get_current_server(bot)
     init_db()
     print("Bot is running on {}".format(gl.guild_obj.name))
+    print(option)
+    if option == "test":
+        print("Exit")
+        exit(0)
 
 
 @bot.event

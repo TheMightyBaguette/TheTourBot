@@ -1,10 +1,12 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/tourbot
     docker:
       - image: circleci/python:latest
     steps:
       - checkout
-      - run: pip install -r requirements.txt
-      - run: python src/main.py
+      - run: sudo pip install pipenv
+      - run: pipenv install -r requirements.txt
+      - run:
+          command: pipenv run python src/main.py test
+          no_output_timeout: 20s
