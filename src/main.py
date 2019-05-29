@@ -11,7 +11,10 @@ import time
 from cmds.debug.debug import Debug
 from database.joueur import Base, Tour
 
-option = sys.argv[1]
+try:
+    option = sys.argv[1]
+except IndexError:
+    pass
 
 
 def get_current_server(bot):
