@@ -1,6 +1,6 @@
 # TourBot
 
-[![CodeFactor](https://www.codefactor.io/repository/github/themightybaguette/thetourbot/badge)](https://www.codefactor.io/repository/github/themightybaguette/thetourbot)
+[![CodeFactor](https://www.codefactor.io/repository/github/themightybaguette/thetourbot/badge)](https://www.codefactor.io/repository/github/themightybaguette/thetourbot)  [![CircleCI](https://circleci.com/gh/TheMightyBaguette/TheTourBot.svg?style=svg&circle-token=794a5fb974ff4924f36bfe2d893a5d3e4b209d2a)](https://circleci.com/gh/TheMightyBaguette/TheTourBot)
 
 [![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://github.com/TheMightyBaguette/TheTourBot)
 [![forthebadge](https://forthebadge.com/images/badges/built-by-hipsters.svg)](https://github.com/TheMightyBaguette/TheTourBot)
