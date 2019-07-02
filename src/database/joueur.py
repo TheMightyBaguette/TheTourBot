@@ -191,10 +191,3 @@ class Joueur(Base):
         else:
             hit = True; ctx.say("Bien joué ton adversaire prend un coup")
         return hit, enemy
-
-
-class Tour(Base):
-    __tablename__ = "tour"
-    userid = Column(String, primary_key=True)
-    played = Column(Boolean, default=False)
-    action = Column(String)

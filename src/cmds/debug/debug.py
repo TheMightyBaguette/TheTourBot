@@ -4,7 +4,7 @@ from sqlalchemy import select
 
 import gl
 from database.joueur import Joueur
-from database.joueur import Tour
+from database.tour import Tour
 
 
 class obj:
