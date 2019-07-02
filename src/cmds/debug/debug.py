@@ -3,8 +3,7 @@ from discord.ext import commands
 from sqlalchemy import select
 
 import gl
-from database.joueur import Joueur
-from database.tour import Tour
+from database.joueur import Joueur, Tour
 
 
 class obj:
@@ -46,3 +45,7 @@ class Debug(commands.Cog):
         def result_dicts(rs):
             return list(map(result_dict, rs))
         await ctx.send(result_dicts(result))
+
+    @commands.command(pass_context=True)
+    async def pause(self, ctx):
+        await breakpoint()

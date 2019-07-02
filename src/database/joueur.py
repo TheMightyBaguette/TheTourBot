@@ -7,8 +7,9 @@ from sqlalchemy.ext.declarative import declarative_base
 
 import gl
 from cmds.action_utils import getplayer
-from database.roles.aventurier.armurier import Armurier
-from database.roles.aventurier.paladin import Paladin
+
+# from database.roles.aventurier.Armurier import Armurier
+# from database.roles.aventurier.Paladin import Paladin
 
 Base = declarative_base()
 
@@ -37,8 +38,8 @@ class Joueur(Base):
     prediction_success = Column(Boolean, default=False)
 
     __mapper_args__ = {
-        'polymorphic_on': type,
-        'polymorphic_identity': 'employee'
+        'polymorphic_on': role,
+        'polymorphic_identity': 'joueurs'
     }
 
     # TODO: A voir pour le Ninja : tempplustwoatk
@@ -88,7 +89,7 @@ class Joueur(Base):
         msg = await ctx.bot.wait_for("message", check=check)
         return msg  # On retourne le message
 
-    async def give(self, ctx) -> Joueur:
+    async def give(self, ctx):
         """Attend le message du joueur et recupere le joueur mentionné
 
         Arguments:
@@ -174,9 +175,9 @@ class Joueur(Base):
         await ctx.say("Tu viens de lancer ton dé et tu fais un {}".format(num))
         enemy = await self.give(ctx)
         # --- Cas particulier ---
-        if enemy is Paladin:
+        if enemy.role == 'Paladin':
             enemy.temp_def_modifier -= enemy.paladin_def
-        if enemy is Armurier:
+        if enemy.role == 'Armurier':
             if enemy.youHaveToThrowTheDiceAgain is True:
                 await ctx.say("Manque de bol tu dois relancer ton dé")
                 hit, enemy = await self.throwdice(ctx)
@@ -191,3 +192,10 @@ class Joueur(Base):
         else:
             hit = True; ctx.say("Bien joué ton adversaire prend un coup")
         return hit, enemy
+
+
+class Tour(Base):
+    __tablename__ = "tour"
+    userid = Column(String, primary_key=True)
+    played = Column(Boolean, default=False)
+    action = Column(String)

@@ -9,7 +9,10 @@ import gl
 from cmds.debug.debug import Debug
 from database.joueur import Base
 
-option = sys.argv[1]
+try:
+    option = sys.argv[1]
+except:
+    option = None
 
 
 def get_current_server(bot):

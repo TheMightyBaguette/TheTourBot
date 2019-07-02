@@ -17,5 +17,5 @@ class Capitaine(Joueur):
         await self.giveDefToSomeone(ctx=ctx, num=1)
 
     __mapper_args__ = {
-        'polymorphic_identity': 'capitaine'
+        'polymorphic_identity': 'Capitaine'
     }

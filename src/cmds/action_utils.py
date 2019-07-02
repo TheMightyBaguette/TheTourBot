@@ -1,6 +1,4 @@
 import gl
-from database.joueur import Joueur
-from database.tour import Tour
 
 
 def commit_tour(authorid, action):
@@ -9,7 +7,7 @@ def commit_tour(authorid, action):
     gl.session.commit()
 
 
-def getplayer(userid: int) -> Joueur:
+def getplayer(userid):
     """Retourne le joueur connaissant son userid
 
     Arguments:

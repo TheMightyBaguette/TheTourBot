@@ -15,5 +15,5 @@ class Armurier(Joueur):
         self.youHaveToThrowTheDiceAgain = True
 
     __mapper_args__ = {
-        'polymorphic_identity': 'armurier'
+        'polymorphic_identity': 'Armurier'
     }

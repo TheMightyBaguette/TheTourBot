@@ -40,5 +40,5 @@ class Sage(Joueur):
         await self.takeDefToSomeone(ctx=ctx, num=-1)
 
     __mapper_args__ = {
-        'polymorphic_identity': 'berzerk'
+        'polymorphic_identity': 'Berzerk'
     }

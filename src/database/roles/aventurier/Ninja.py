@@ -21,5 +21,5 @@ class Ninja(Joueur):
         await self.takeDefToSomeone(ctx=ctx, num=-1)
 
     __mapper_args__ = {
-        'polymorphic_identity': 'ninja'
+        'polymorphic_identity': 'Ninja'
     }

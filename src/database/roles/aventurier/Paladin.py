@@ -21,5 +21,5 @@ class Paladin(Joueur):
             self.temp_def_modifier += self.paladin_def
 
     __mapper_args__ = {
-        'polymorphic_identity': 'paladin'
+        'polymorphic_identity': 'Paladin'
     }

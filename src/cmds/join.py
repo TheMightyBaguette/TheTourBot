@@ -1,9 +1,9 @@
 # coding=utf-8
-import gl
 from discord.ext import commands
 from discord.utils import get
+
+import gl
 from database.joueur import Joueur, Tour
-import discord
 
 
 @commands.command(pass_context=True)
@@ -21,6 +21,7 @@ async def join(ctx, *args):
     member_roles = sum([1 for x in member.roles if x not in blacklist])
     if getrole not in blacklist and getrole not in count_roles and member_roles == 0:
         role = get(member.guild.roles, name=role_asked)
+
         player = Joueur(name=member.name, discriminator=member.discriminator,
                         userid=member.id, roleid=role.id, role=role.name)
         tour = Tour(userid=member.id)

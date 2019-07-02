@@ -18,6 +18,5 @@ async def unjoin(ctx, *args):
         joueur.roleid = None
     await member.remove_roles(role)
 
-
 def setup(bot):
     bot.add_command(unjoin)

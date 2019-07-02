@@ -34,5 +34,5 @@ class Berzerk(Joueur):
             gl.session.commit()
 
     __mapper_args__ = {
-        'polymorphic_identity': 'berzerk'
+        'polymorphic_identity': 'Berzerk'
     }
