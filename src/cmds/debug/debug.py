@@ -3,7 +3,8 @@ from discord.ext import commands
 from sqlalchemy import select
 
 import gl
-from database.joueur import Joueur, Tour
+from database.joueur import Joueur
+from database.joueur import Tour
 
 
 class obj:
