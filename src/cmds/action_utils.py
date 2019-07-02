@@ -1,5 +1,6 @@
 import gl
-from database.joueur import Tour, Joueur
+from database.joueur import Joueur
+from database.tour import Tour
 
 
 def commit_tour(authorid, action):
