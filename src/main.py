@@ -64,7 +64,7 @@ async def on_message(message):
 # On charge les commandes
 bot.load_extension('cmds.join')
 bot.load_extension('cmds.profile')
-bot.load_extension("cmds.action2")
+bot.load_extension("cmds.action")
 bot.load_extension("cmds.unjoin")
 bot.add_cog(Debug(bot))
 
