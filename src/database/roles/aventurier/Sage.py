@@ -1,5 +1,4 @@
 import gl
-from cmds.action import wait_for_message
 from database.joueur import Joueur
 
 
@@ -7,7 +6,7 @@ class Sage(Joueur):
 
     async def ask_sage(self, ctx):
         await ctx.send("Prédis si tu va réussir (hit/nohit) ?")
-        msg = await wait_for_message(ctx)
+        msg = await self.wait_for_message(ctx)
         if msg.content == "hit":
             self.prediction = True
         else:
@@ -40,5 +39,5 @@ class Sage(Joueur):
         await self.takeDefToSomeone(ctx=ctx, num=-1)
 
     __mapper_args__ = {
-        'polymorphic_identity': 'Berzerk'
+        'polymorphic_identity': 'Sage'
     }

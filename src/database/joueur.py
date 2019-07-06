@@ -6,12 +6,23 @@ from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 
 import gl
-from cmds.action_utils import getplayer
 
 # from database.roles.aventurier.Armurier import Armurier
 # from database.roles.aventurier.Paladin import Paladin
 
 Base = declarative_base()
+
+
+def getplayer(userid):
+    """Retourne le joueur connaissant son userid
+
+    Arguments:
+        userid {int} -- l'userid du joueur - son id Discord
+
+    Returns:
+        Joueur -- le joueur
+    """
+    return gl.session.query(Joueur).filter_by(userid=userid).first()
 
 
 class Joueur(Base):
@@ -58,13 +69,12 @@ class Joueur(Base):
 ╠══════════════╬═══════════════════════╣
 ║ hasBeenhit   ║ {}
 ╚══════════════╩═══════════════════════╝```'''.format(self.name + "#" + self.discriminator, self.role, self.hp * u"❤️",
-                                                      self.atk_modifier * u"⚔️", self.def_modifier * u"🛡️",
+                                                      self.atk_modifier * u"??", self.def_modifier * u"???",
                                                       self.hasBeenHit)
         return info
 
     async def attaque(self, ctx):
         pass
-
     async def defend(self, ctx):
         pass
 
@@ -170,27 +180,28 @@ class Joueur(Base):
         gl.session.commit()
 
     async def throwdice(self, ctx):
-        await ctx.say("Qui souhaite tu attaquer ?")
-        num = randint(0, 6)
-        await ctx.say("Tu viens de lancer ton dé et tu fais un {}".format(num))
+        await ctx.send("Qui souhaite tu attaquer ?")
         enemy = await self.give(ctx)
+        num = randint(1, 6)
+        await ctx.send("Tu viens de lancer ton dé et tu fais un {}".format(num))
         # --- Cas particulier ---
         if enemy.role == 'Paladin':
             enemy.temp_def_modifier -= enemy.paladin_def
         if enemy.role == 'Armurier':
             if enemy.youHaveToThrowTheDiceAgain is True:
-                await ctx.say("Manque de bol tu dois relancer ton dé")
+                await ctx.send("Manque de bol tu dois relancer ton dé")
                 hit, enemy = await self.throwdice(ctx)
                 return hit, enemy
         # --------------------------
         num = num + self.atk_modifier + self.temp_atk_modifier - \
               enemy.def_modifier + enemy.temp_def_modifier
-        await ctx.say("En cumulant les bonus et malus ton attaque est de : {}".format(num))
+        await ctx.send("En cumulant les bonus et malus ton attaque est de : {}".format(num))
         if num <= 3:
             hit = False
-            await ctx.say("Tu as raté ton coup c'est balot !")
+            await ctx.send("Tu as raté ton coup c'est balot !")
         else:
-            hit = True; ctx.say("Bien joué ton adversaire prend un coup")
+            hit = True
+            await ctx.send("Bien joué ton adversaire prend un coup")
         return hit, enemy
 
 

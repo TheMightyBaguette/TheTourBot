@@ -3,7 +3,6 @@ from discord.ext.commands import Context
 from sqlalchemy import func
 
 import gl
-from cmds.action_utils import getplayer
 from database.joueur import Joueur, Tour
 
 
@@ -23,12 +22,16 @@ async def reinit(ctx):
 async def action(ctx: Context, *args):
     authorid = ctx.author.id
     player = getplayer(authorid)
+    if gl.session.query(Tour).filter_by(userid=authorid).first().played is True:
+        await ctx.send("Tu as déjà jouer mousaillon")
+        return
     type_action = args[0]
     if type_action == "attaque":
         await player.attaque(ctx)
+        commit_tour(authorid, "attaque")
     if type_action == "defend":
         await player.defend(ctx)
-    gl.session.commit()
+        commit_tour(authorid, "defend")
     notplayed = gl.session.query(func.count(Tour.played)).filter_by(played=False).first()
     countplayers = gl.session.query(func.count(Tour.userid)).first()
     print(notplayed)
@@ -40,6 +43,24 @@ async def action(ctx: Context, *args):
         await ctx.send("Fin de la partie pour le moment le bot s'éteint")
         await ctx.send("En cours de réalisation")
         await reinit()
+
+
+def commit_tour(authorid, action):
+    tour = Tour(userid=authorid, played=True, action=action)
+    gl.session.merge(tour)
+    gl.session.commit()
+
+
+def getplayer(userid):
+    """Retourne le joueur connaissant son userid
+
+    Arguments:
+        userid {int} -- l'userid du joueur - son id Discord
+
+    Returns:
+        Joueur -- le joueur
+    """
+    return gl.session.query(Joueur).filter_by(userid=userid).first()
 
 def setup(bot):
     bot.add_command(action)

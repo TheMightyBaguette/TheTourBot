@@ -15,7 +15,7 @@ class Debug(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def load_dummy_player(self, ctx):
+    async def ldm(self, ctx):  # load_dummy_player
         member = obj()
         role = obj()
         member.name = "TourBot"
