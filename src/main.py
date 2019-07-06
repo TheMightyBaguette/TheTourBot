@@ -11,9 +11,9 @@ from database.joueur import Base
 
 try:
     option = sys.argv[1]
-except:
-    option = None
 
+except IndexError:
+    option = None
 
 def get_current_server(bot):
     """Retourne le serveur courant
