@@ -2,6 +2,11 @@ import gl
 from database.joueur import Joueur
 
 
+# Note :
+# Sage pas terminé
+# Copie de Ninja
+# Modifier la fonction attaque
+
 class Sage(Joueur):
 
     async def ask_sage(self, ctx):

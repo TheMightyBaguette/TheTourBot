@@ -78,7 +78,7 @@ class Joueur(Base):
     async def defend(self, ctx):
         pass
 
-    async def ultime(self, ctx):
+    async def utilisable(self, ctx):
         pass
 
     async def wait_for_message(self, ctx):
@@ -190,6 +190,7 @@ class Joueur(Base):
         if enemy.role == 'Armurier':
             if enemy.youHaveToThrowTheDiceAgain is True:
                 await ctx.send("Cet aventurier est protégé par l'armurier ! Il faudra lui passer sur le corps ! relance.")
+                enemy.youHaveToThrowTheDiceAgain = False
                 hit, enemy = await self.throwdice(ctx)
                 return hit, enemy
         # --------------------------

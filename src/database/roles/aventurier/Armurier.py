@@ -2,6 +2,9 @@ import gl
 from database.joueur import Joueur
 
 
+# Notes
+# Forcer le rejeu sur l'Armurier
+# [x] Reinitialise la defense
 class Armurier(Joueur):
 
     async def attaque(self, ctx):
