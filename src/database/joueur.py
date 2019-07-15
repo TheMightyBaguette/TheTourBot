@@ -189,7 +189,7 @@ class Joueur(Base):
             enemy.temp_def_modifier -= enemy.paladin_def
         if enemy.role == 'Armurier':
             if enemy.youHaveToThrowTheDiceAgain is True:
-                await ctx.send("Manque de bol tu dois relancer ton dé")
+                await ctx.send("Cet aventurier est protégé par l'armurier ! Il faudra lui passer sur le corps ! relance.")
                 hit, enemy = await self.throwdice(ctx)
                 return hit, enemy
         # --------------------------
