@@ -179,9 +179,10 @@ class Joueur(Base):
         await ctx.send("{} a désormais gagner {} vie".format(player.name, num))
         gl.session.commit()
 
-    async def throwdice(self, ctx):
-        await ctx.send("Qui souhaite tu attaquer ?")
-        enemy = await self.give(ctx)
+    async def throwdice(self, ctx, rejeu=False, enemy=None):
+        if rejeu is False:
+            await ctx.send("Qui souhaite tu attaquer ?")
+            enemy = await self.give(ctx)
         num = randint(1, 6)
         await ctx.send("Tu viens de lancer ton dé et tu fais un {}".format(num))
         # --- Cas particulier ---
@@ -191,7 +192,7 @@ class Joueur(Base):
             if enemy.youHaveToThrowTheDiceAgain is True:
                 await ctx.send("Cet aventurier est protégé par l'armurier ! Il faudra lui passer sur le corps ! relance.")
                 enemy.youHaveToThrowTheDiceAgain = False
-                hit, enemy = await self.throwdice(ctx)
+                hit, enemy = await self.throwdice(ctx, rejeu=True, enemy=enemy)
                 return hit, enemy
         # --------------------------
         num = num + self.atk_modifier + self.temp_atk_modifier - \
