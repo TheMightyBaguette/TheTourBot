@@ -10,20 +10,21 @@ from database.joueur import Joueur, Tour
 async def reinit(ctx):
     res = gl.session.query(Joueur).all()
     for joueur in res:
+        gl.session.query(Tour).filter_by(userid=joueur.userid).first().played = False
+        await gl.session.commit()
         if joueur.temp_atk_modifier > 0:
             joueur.temp_atk_modifier = 0
         if joueur.temp_def_modifier > 0:
             joueur.def_modifier -= 1
             joueur.temp_def_modifier = 0
-
-        gl.session.commit()
+        await gl.session.commit()
 
 @commands.command()
 async def action(ctx: Context, *args):
     authorid = ctx.author.id
     player = getplayer(authorid)
     if gl.session.query(Tour).filter_by(userid=authorid).first().played is True:
-        await ctx.send("Tu as déjà jouer mousaillon")
+        await ctx.send("Tu as déjà joué moussaillon")
         return
     type_action = args[0]
     if type_action == "attaque":
@@ -40,8 +41,8 @@ async def action(ctx: Context, *args):
         gl.tour += 1
         await ctx.send("---------------------------------------")
         await ctx.send("Debut Tour {}".format(gl.tour))
-        await ctx.send("Fin de la partie pour le moment le bot s'éteint")
-        await ctx.send("En cours de réalisation")
+        # await ctx.send("Fin de la partie pour le moment le bot s'éteint")
+        # await ctx.send("En cours de réalisation")
         await reinit()
 
 
