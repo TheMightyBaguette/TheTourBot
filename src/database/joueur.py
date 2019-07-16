@@ -68,13 +68,16 @@ class Joueur(Base):
 ║ def_modifier ║ {}
 ╠══════════════╬═══════════════════════╣
 ║ hasBeenhit   ║ {}
-╚══════════════╩═══════════════════════╝```'''.format(self.name + "#" + self.discriminator, self.role, self.hp * u"❤️",
-                                                      self.atk_modifier * u"??", self.def_modifier * u"???",
-                                                      self.hasBeenHit)
+╚══════════════╩═══════════════════════╝{}-{}```'''.format(self.name + "#" + self.discriminator, self.role,
+                                                           self.hp * u"❤️",
+                                                           self.atk_modifier * u"??", self.def_modifier * u"???",
+                                                           self.hasBeenHit, self.temp_atk_modifier,
+                                                           self.temp_def_modifier)
         return info
 
     async def attaque(self, ctx):
         pass
+
     async def defend(self, ctx):
         pass
 
@@ -194,9 +197,12 @@ class Joueur(Base):
                 enemy.youHaveToThrowTheDiceAgain = False
                 hit, enemy = await self.throwdice(ctx, rejeu=True, enemy=enemy)
                 return hit, enemy
+        if self is enemy:
+            await ctx.send("On ne se tape pas soi-meme enfin !")
+            return
         # --------------------------
-        num = num + self.atk_modifier + self.temp_atk_modifier - \
-              enemy.def_modifier + enemy.temp_def_modifier
+        num = num + (self.atk_modifier + self.temp_atk_modifier) - \
+              (enemy.def_modifier + enemy.temp_def_modifier)
         await ctx.send("En cumulant les bonus et malus ton attaque est de : {}".format(num))
         if num <= 3:
             hit = False
