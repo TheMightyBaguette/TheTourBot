@@ -2,6 +2,10 @@ import gl
 from database.joueur import Joueur
 
 
+# @Ninja  :
+# :regional_indicator_a: +2 si il n'a pas été touché au tour précédent durant 1 tour
+# :regional_indicator_d:  +1 et donne -1 d'attaque à un ennemi au choix durant 1 tour
+
 class Ninja(Joueur):
 
     async def attaque(self, ctx):

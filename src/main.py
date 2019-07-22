@@ -57,6 +57,7 @@ async def on_ready():
     init_db()
     print("Bot is running on {}".format(gl.guild_obj.name))
     print(option)
+    # On enleve les roles suivants :
     for member in gl.guild_obj.members:
         print(member)
         role1 = get(member.guild.roles, name="Paladin")

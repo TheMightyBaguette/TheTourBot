@@ -4,6 +4,11 @@ import gl
 from database.joueur import Joueur
 
 
+# @Paladin :
+# [P] (passif) +1 en défense
+# [A] -1
+# [D]  s'ajoute  +1 jusqu'à être attaqué (max +2 en tout) stack
+
 # Resoudre le probleme du paladin qui ne voit pas son attaque diminuer
 
 
@@ -23,10 +28,12 @@ class Paladin(Joueur):
 
     # TODO: revoir la defense du Paladin
     async def defend(self, ctx):
-        self.temp_def_modifier += 1
+        # self.temp_def_modifier += 1
+        # Si la defense du Paladin est inférieur a 3
+        self.selfdefense = True
         if self.paladin_def < 3:
+            # On ajoute +1 a la defense du Paladin
             self.paladin_def += 1
-            self.temp_def_modifier += self.paladin_def
 
     __mapper_args__ = {
         'polymorphic_identity': 'Paladin'

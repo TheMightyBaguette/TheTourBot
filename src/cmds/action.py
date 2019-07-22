@@ -12,6 +12,7 @@ async def reinit(ctx):
         gl.session.query(Tour).filter_by(
             userid=joueur.userid).first().played = False
         gl.session.commit()
+        joueur.selfdefense = False
         if joueur.temp_atk_modifier != 0:
             joueur.temp_atk_modifier = 0
         if joueur.temp_def_modifier != 0:

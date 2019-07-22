@@ -7,6 +7,10 @@ from database.joueur import Joueur
 # Copie de Ninja
 # Modifier la fonction attaque
 
+# @Sage  :
+# :regional_indicator_a: avant de jeter le dé, peut prédir si ça touche ou non. si la prédiction est correcte il gagne +1 durant 1 tour
+# :regional_indicator_d: si l'ennemi rate, le Sage jette le dé contre lui sans bonus
+
 class Sage(Joueur):
 
     async def ask_sage(self, ctx):

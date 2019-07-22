@@ -32,6 +32,7 @@ class Joueur(Base):
     userid = Column(Integer, primary_key=True)
     role = Column(String)
     roleid = Column(Integer)
+    selfdefense = Column(Boolean, default=False)
     hp = Column(Integer, default=3)
     atk_modifier = Column(Integer, default=0)
     def_modifier = Column(Integer, default=0)

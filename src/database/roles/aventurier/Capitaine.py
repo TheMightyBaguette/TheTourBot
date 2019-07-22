@@ -2,6 +2,10 @@ import gl
 from database.joueur import Joueur
 
 
+# @Capitaine  :
+# :regional_indicator_a: +1
+# :regional_indicator_d:  donne +1 de def à un allié :eye:  ou lui-même durant 1 tour
+
 class Capitaine(Joueur):
     atk_modifier = 1
 
