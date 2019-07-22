@@ -1,5 +1,6 @@
 # coding=utf-8
 from discord.ext import commands
+
 import gl
 from database.joueur import Joueur
 
@@ -29,16 +30,31 @@ async def profilep(ctx, *args):
         joueur.role), inline=True)
     embed.add_field(name="HP :", value="{} ".format(
         joueur.hp*u"❤️"), inline=True)
-    if joueur.atk_modifier != 0:
+    if joueur.atk_modifier > 0:
         embed.add_field(name="Bonus d'attaque :", value="{}".format(
             joueur.atk_modifier * u"⚔️"), inline=True)
     else:
-        embed.add_field(name="Bonus d'attaque :", value="Aucun", inline=True)
-    if joueur.def_modifier != 0:
+        embed.add_field(name="Bonus d'attaque :", value="{}".format(
+            joueur.atk_modifier), inline=True)
+    if joueur.def_modifier > 0:
         embed.add_field(name="Bonus de défense :", value="{}".format(
             joueur.def_modifier*u"🛡️"), inline=True)
     else:
-        embed.add_field(name="Bonus de défense :", value="Aucun", inline=True)
+        embed.add_field(name="Bonus de défense :", value="{}".format(
+            joueur.def_modifier), inline=True)
+    if joueur.temp_atk_modifier > 0:
+        embed.add_field(name="Bonus d'attaque temporaire :", value="{}".format(
+            joueur.temp_atk_modifier * u"⚔️"), inline=True)
+    else:
+        embed.add_field(name="Bonus d'attaque temporaire :",
+                        value="{}".format(joueur.temp_atk_modifier), inline=True)
+    if joueur.temp_def_modifier > 0:
+        embed.add_field(name="Bonus de défense temporaire:", value="{}".format(
+            joueur.temp_def_modifier * u"🛡️"), inline=True)
+    else:
+        embed.add_field(name="Bonus de défense temporaire:",
+                        value="{}".format(joueur.temp_def_modifier), inline=True)
+
     await ctx.send(embed=embed)
 
 

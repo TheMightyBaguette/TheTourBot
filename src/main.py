@@ -1,21 +1,20 @@
 # coding=utf-8
-from sqlalchemy import create_engine, func
+import sys
+
+from discord.ext import commands
+# Ajout temporaire
+from discord.utils import get
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 import gl
-from discord.ext import commands
-import discord
-import sys
-import time
-
 from cmds.debug.debug import Debug
-from database.joueur import Base, Tour
+from database.joueur import Base
 
 try:
     option = sys.argv[1]
 except IndexError:
     pass
-
 
 def get_current_server(bot):
     """Retourne le serveur courant
@@ -56,6 +55,14 @@ async def on_ready():
     init_db()
     print("Bot is running on {}".format(gl.guild_obj.name))
     print(option)
+    # On enleve les roles suivants :
+    for member in gl.guild_obj.members:
+        print(member)
+        role1 = get(member.guild.roles, name="Paladin")
+        role2 = get(member.guild.roles, name="Armurier")
+        role3 = get(member.guild.roles, name="Ninja")
+        role4 = get(member.guild.roles, name="Capitaine")
+        await member.remove_roles(role1, role2, role3, role4)
     if option == "test":
         print("Exit")
         exit(0)

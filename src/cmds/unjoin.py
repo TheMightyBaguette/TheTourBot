@@ -7,6 +7,16 @@ from database.joueur import Joueur
 
 
 @commands.command(pass_context=True)
+async def unjoin_all(ctx, *args):
+    for member in ctx.guild.members:
+        print(member)
+        role1 = get(member.guild.roles, name="Paladin")
+        role2 = get(member.guild.roles, name="Armurier")
+        role3 = get(member.guild.roles, name="Ninja")
+        await ctx.send("Done removing role " + str(member))
+        await member.remove_roles(role1, role2, role3)
+
+@commands.command(pass_context=True)
 async def unjoin(ctx, *args):
     member = ctx.message.author
     role_asked = " ".join(args)
@@ -18,6 +28,6 @@ async def unjoin(ctx, *args):
         joueur.roleid = None
     await member.remove_roles(role)
 
-
 def setup(bot):
     bot.add_command(unjoin)
+    bot.add_command(unjoin_all)

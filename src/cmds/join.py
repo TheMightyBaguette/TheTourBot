@@ -1,9 +1,15 @@
 # coding=utf-8
-import gl
 from discord.ext import commands
 from discord.utils import get
+
+import gl
 from database.joueur import Joueur, Tour
-import discord
+from database.roles.aventurier.Armurier import Armurier
+from database.roles.aventurier.Berzerk import Berzerk
+from database.roles.aventurier.Capitaine import Capitaine
+from database.roles.aventurier.Ninja import Ninja
+from database.roles.aventurier.Paladin import Paladin
+from database.roles.aventurier.Sage import Sage
 
 
 @commands.command(pass_context=True)
@@ -21,8 +27,23 @@ async def join(ctx, *args):
     member_roles = sum([1 for x in member.roles if x not in blacklist])
     if getrole not in blacklist and getrole not in count_roles and member_roles == 0:
         role = get(member.guild.roles, name=role_asked)
-        player = Joueur(name=member.name, discriminator=member.discriminator,
-                        userid=member.id, roleid=role.id, role=role.name)
+        builder = {
+            'Paladin': Paladin(name=member.name, discriminator=member.discriminator, userid=member.id, roleid=role.id,
+                               role=role.name),
+            'Armurier': Armurier(name=member.name, discriminator=member.discriminator, userid=member.id, roleid=role.id,
+                                 role=role.name),
+            'Berzerk': Berzerk(name=member.name, discriminator=member.discriminator, userid=member.id, roleid=role.id,
+                               role=role.name),
+            'Capitaine': Capitaine(name=member.name, discriminator=member.discriminator, userid=member.id,
+                                   roleid=role.id, role=role.name),
+            'Ninja': Ninja(name=member.name, discriminator=member.discriminator, userid=member.id, roleid=role.id,
+                           role=role.name),
+            'Sage': Sage(name=member.name, discriminator=member.discriminator, userid=member.id, roleid=role.id,
+                         role=role.name)
+        }
+        player = builder.get(role.name)
+        print(type(player))
+        # player = Joueur(name=member.name, discriminator=member.discriminator,userid=member.id, roleid=role.id, role=role.name)
         tour = Tour(userid=member.id)
         gl.session.add(tour)
         gl.session.commit()

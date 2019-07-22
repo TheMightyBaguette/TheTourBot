@@ -15,7 +15,7 @@ class Debug(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def load_dummy_player(self, ctx):
+    async def ldm(self, ctx):  # load_dummy_player
         member = obj()
         role = obj()
         member.name = "TourBot"
@@ -45,3 +45,7 @@ class Debug(commands.Cog):
         def result_dicts(rs):
             return list(map(result_dict, rs))
         await ctx.send(result_dicts(result))
+
+    @commands.command(pass_context=True)
+    async def pause(self, ctx):
+        await breakpoint()
