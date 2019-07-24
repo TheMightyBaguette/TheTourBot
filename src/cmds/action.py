@@ -7,6 +7,12 @@ from database.joueur import Joueur, Tour
 
 
 async def reinit(ctx):
+    """Fonction exécuter a chaque fin de tour
+    Permet de réinitaliser les bonus temporaires (à implémenter pour certains !)
+    et d'effectuer des actions post tour
+    Arguments:
+        ctx Context -- Contexte du bot
+    """
     res = gl.session.query(Joueur).all()
     for joueur in res:
         gl.session.query(Tour).filter_by(
@@ -22,6 +28,11 @@ async def reinit(ctx):
 
 @commands.command()
 async def action(ctx: Context, *args):
+    """Fonction principale permet au joueur d'effectuer une action
+    Soit d'attaquer (atk), soit de defendre (def)
+    Arguments:
+        ctx Context -- Contexte du bot
+    """
     authorid = ctx.author.id
     player = getplayer(authorid)
     if gl.session.query(Tour).filter_by(userid=authorid).first().played is True:
@@ -49,6 +60,12 @@ async def action(ctx: Context, *args):
 
 
 def commit_tour(authorid, action):
+    """Fonction permettant de valider les changements en base de données a la fin du tour dans la table Tour
+    qui permet de suivre si un joueur a joué ou non et l'action qu'il a effectué
+    Arguments:
+        authorid int -- identifiant de l'auteur du message (identifiant interne discord) <=> userid
+        action str -- type de l'action réalisé par le joueur pour le tour
+    """
     tour = Tour(userid=authorid, played=True, action=action)
     gl.session.merge(tour)
     gl.session.commit()

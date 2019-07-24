@@ -7,6 +7,8 @@ from database.joueur import Joueur
 
 @commands.command(pass_context=True)
 async def profile(ctx, *args):
+    """Commande permettant d'afficher le statut d'un joueur v1
+    """
     gl.session.commit()
     userid = ctx.message.author.id
     joueur = gl.session.query(Joueur).filter_by(userid=userid).first()
@@ -16,6 +18,8 @@ async def profile(ctx, *args):
 
 @commands.command(pass_context=True)
 async def profilep(ctx, *args):
+    """Commande permettant d'afficher le statut d'un joueur v2
+    """
     gl.session.commit()
     from discord import Member
     author: Member = ctx.message.author
