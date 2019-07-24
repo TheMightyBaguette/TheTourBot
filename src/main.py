@@ -54,7 +54,7 @@ async def on_ready():
     gl.guild_obj = get_current_server(bot)
     init_db()
     print("Bot is running on {}".format(gl.guild_obj.name))
-    print(option)
+    # print(option)
     # On enleve les roles suivants :
     for member in gl.guild_obj.members:
         print(member)
